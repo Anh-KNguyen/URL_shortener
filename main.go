@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"bufio"
 	"os"
+	"net/http"
 ) 
 
 var characters = []byte("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
@@ -20,7 +21,11 @@ func randSeq(n int) string {
 
 func main() {
 	fmt.Println("URL Shortener")
-	url_map := make(map[string] string)
+	mux := defaultMux()
+
+	// Build MapHandler using mux as fallback
+	pathsToURL := make(map[string] string)
+	mapHandler := urlshort.MapHandler(pathsToURL, mux)
 
 	// read url input string
 	reader := bufio.NewReader(os.Stdin)
@@ -32,7 +37,7 @@ func main() {
 	shortenURL := randSeq(10)
 
 	// place into map
-	url_map[text] = shortenURL
-	fmt.Println("map:", url_map)
+	pathsToURL[text] = shortenURL
+	fmt.Println("map:", pathsToURL)
 
 }
