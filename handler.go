@@ -2,8 +2,13 @@ package urlshort
 
 import "net/http"
 
-// MapHandler returns a http.HandlerFunc that will map any paths to their corresponding URL (key:val)
-// When the path doesn't exist, the fallback http.Handler will be called instead
+// Returns a http.HandlerFunc that maps paths to their corresponding URL (key:val)
+// the fallback http.Handler is called when path doesn't exist
 func MapHandler(pathsToUrls map[string] string, fallback http.Handler) http.HandlerFunc {
-	return nil
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if pathsToUrls[r.URL.Path] != "" {
+			http.Redirect(w, r, pathsToUrls[r.URL.Path], http.StatusFound)
+		}
+		fallback.ServeHTTP(w, r)
+	})
 }
