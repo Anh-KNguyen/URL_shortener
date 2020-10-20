@@ -1,22 +1,21 @@
 package main
 
 import (
-	"bufio"
 	"encoding/json"
 	"fmt"
 	"math/rand"
 	"net/http"
-	"os"
 	"time"
 
-	"github.com/Anh-KNguyen/URL_shortener/urlshort"
 	"github.com/gorilla/mux"
 )
 
 var characters = []byte("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 
+var pathsToURL = make(map[string]string)
+
 type Url struct {
-	LongUrl string `json:"long_url"`
+	LongUrl  string `json:"long_url"`
 	ShortUrl string `json:"short_url"`
 }
 
@@ -45,6 +44,14 @@ func InputHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// generate random short_url
+	rand.Seed(time.Now().UnixNano())
+	u.ShortUrl = randSeq(10)
+
+	// place into map
+	pathsToURL[u.ShortUrl] = u.LongUrl
+
+	
 
 }
 
@@ -63,24 +70,7 @@ func randSeq(n int) string {
 func main() {
 	// start http server
 	mux := defaultMux()
-	go http.ListenAndServe(":8080", mux)
+	http.ListenAndServe(":8080", mux)
 
-	// Build MapHandler using mux as fallback
-	pathsToURL := make(map[string]string)
-	mapHandler := urlshort.MapHandler(pathsToURL, mux)
-
-	// read url input string
-	reader := bufio.NewReader(os.Stdin)
-	fmt.Println("Enter URL to shorten: ")
-	text, _ := reader.ReadString('\n')
-
-	// generate random string
-	rand.Seed(time.Now().UnixNano())
-	shortenURL := randSeq(10)
-
-	// place into map
-	pathsToURL[text] = shortenURL
-	fmt.Println("map:", pathsToURL)
-	fmt.Println(mapHandler)
-
+	
 }
