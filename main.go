@@ -38,7 +38,6 @@ func InputHandler(w http.ResponseWriter, r *http.Request) {
 
 	// decode the request body into Url struct
 	err := json.NewDecoder(r.Body).Decode(&u)
-
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -53,7 +52,6 @@ func InputHandler(w http.ResponseWriter, r *http.Request) {
 
 	// encode struct into json string representation
 	err = json.NewEncoder(w).Encode(&u)
-
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -65,10 +63,17 @@ func OutputHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	shortId := vars["id"]
 	longId := pathsToURL[shortId]
-	w.WriteHeader(http.StatusOK)
 
-	u := Url{LongUrl: vars["id"], ShortUrl: ""}
-	jsonBody, err := json.NewEncoder(w).Encode(u)
+	u := Url{
+		ShortUrl: shortId, 
+		LongUrl: longId,
+	}
+
+	err := json.NewEncoder(w).Encode(u)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 }
 
 // generate random string for short_url
@@ -83,5 +88,6 @@ func randSeq(n int) string {
 func main() {
 	// start http server
 	mux := defaultMux()
-	http.ListenAndServe(":8080", mux)
+	_ = http.ListenAndServe(":8080", mux)
+	
 }
