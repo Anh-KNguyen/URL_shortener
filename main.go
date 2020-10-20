@@ -14,6 +14,11 @@ import (
 
 var characters = []byte("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 
+type Url struct {
+	Long_url string
+	Short_url string
+}
+
 func defaultMux() *mux.Router {
 	r := mux.NewRouter()
 	r.HandleFunc("/", hello)
@@ -27,7 +32,7 @@ func hello(w http.ResponseWriter, r *http.Request) {
 }
 
 func InputHandler(w http.ResponseWriter, r *http.Request) {
-
+	
 }
 
 func OutputHandler(w http.ResponseWriter, r *http.Request) {
