@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
 	"math/rand"
 	"net/http"
@@ -15,10 +16,11 @@ import (
 var characters = []byte("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 
 type Url struct {
-	Long_url string
-	Short_url string
+	LongUrl string `json:"long_url"`
+	ShortUrl string `json:"short_url"`
 }
 
+// define Rest APIs and Handlers
 func defaultMux() *mux.Router {
 	r := mux.NewRouter()
 	r.HandleFunc("/", hello)
@@ -32,7 +34,18 @@ func hello(w http.ResponseWriter, r *http.Request) {
 }
 
 func InputHandler(w http.ResponseWriter, r *http.Request) {
-	
+	// define new Url struct
+	var u Url
+
+	// decode the request body into Url struct
+	err := json.NewDecoder(r.Body).Decode(&u)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+
 }
 
 func OutputHandler(w http.ResponseWriter, r *http.Request) {
@@ -48,6 +61,7 @@ func randSeq(n int) string {
 }
 
 func main() {
+	// start http server
 	mux := defaultMux()
 	go http.ListenAndServe(":8080", mux)
 
