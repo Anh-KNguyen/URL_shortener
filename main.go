@@ -17,11 +17,21 @@ var characters = []byte("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012
 func defaultMux() *mux.Router {
 	r := mux.NewRouter()
 	r.HandleFunc("/", hello)
+	r.HandleFunc("/links", InputHandler).Methods(http.MethodPost)
+	r.HandleFunc("/links/{id}", OutputHandler).Methods(http.MethodGet)
 	return r
 }
 
 func hello(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "Hello world")
+}
+
+func InputHandler(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func OutputHandler(w http.ResponseWriter, r *http.Request) {
+
 }
 
 func randSeq(n int) string {
