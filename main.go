@@ -25,6 +25,7 @@ func defaultMux() *mux.Router {
 	r.HandleFunc("/", hello)
 	r.HandleFunc("/links", InputHandler).Methods(http.MethodPost)
 	r.HandleFunc("/links/{id}", OutputHandler).Methods(http.MethodGet)
+	r.HandleFunc("/{id}", PathHandler).Methods(http.MethodGet)
 	return r
 }
 
@@ -64,6 +65,7 @@ func OutputHandler(w http.ResponseWriter, r *http.Request) {
 	shortId := vars["id"]
 	longId := pathsToURL[shortId]
 
+	// store retrieved urls into Url struct
 	u := Url{
 		ShortUrl: shortId, 
 		LongUrl: longId,
@@ -74,6 +76,16 @@ func OutputHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+}
+
+func PathHandler(w http.ResponseWriter, r *http.Request) {
+	// retrieve route
+	vars := mux.Vars(r)
+	shortId := vars["id"]
+	longId := pathsToURL[shortId]
+
+	http.Redirect(w, r, longId, http.StatusMovedPermanently)
+	return
 }
 
 // generate random string for short_url
