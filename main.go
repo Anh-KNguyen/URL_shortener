@@ -1,36 +1,49 @@
 package main
 
 import (
-	"fmt"
-	"time"
-	"math/rand"
 	"bufio"
-	"os"
+	"fmt"
+	"math/rand"
 	"net/http"
-) 
+	"os"
+	"time"
+
+	"github.com/Anh-KNguyen/URL_shortener/urlshort"
+	"github.com/gorilla/mux"
+)
 
 var characters = []byte("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+
+func defaultMux() *mux.Router {
+	r := mux.NewRouter()
+	r.HandleFunc("/", hello)
+	return r
+}
+
+func hello(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, "Hello world")
+}
 
 func randSeq(n int) string {
 	buffer := make([]byte, n)
 	for i := range buffer {
-		buffer[i] = characters[rand.Intn(len(characters))] 
+		buffer[i] = characters[rand.Intn(len(characters))]
 	}
 	return string(buffer)
 }
 
 func main() {
-	fmt.Println("URL Shortener")
 	mux := defaultMux()
+	go http.ListenAndServe(":8080", mux)
 
 	// Build MapHandler using mux as fallback
-	pathsToURL := make(map[string] string)
+	pathsToURL := make(map[string]string)
 	mapHandler := urlshort.MapHandler(pathsToURL, mux)
 
 	// read url input string
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("Enter URL to shorten: ")
-	text, _  := reader.ReadString('\n')
+	text, _ := reader.ReadString('\n')
 
 	// generate random string
 	rand.Seed(time.Now().UnixNano())
@@ -39,5 +52,6 @@ func main() {
 	// place into map
 	pathsToURL[text] = shortenURL
 	fmt.Println("map:", pathsToURL)
+	fmt.Println(mapHandler)
 
 }
