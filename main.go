@@ -51,7 +51,13 @@ func InputHandler(w http.ResponseWriter, r *http.Request) {
 	// place into map
 	pathsToURL[u.ShortUrl] = u.LongUrl
 
+	// encode struct into json string representation
+	err = json.NewEncoder(w).Encode(&u)
 	
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
 }
 
