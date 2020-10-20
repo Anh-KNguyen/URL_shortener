@@ -84,8 +84,8 @@ func PathHandler(w http.ResponseWriter, r *http.Request) {
 	shortId := vars["id"]
 	longId := pathsToURL[shortId]
 
+	// redirect to long_url
 	http.Redirect(w, r, longId, http.StatusMovedPermanently)
-	return
 }
 
 // generate random string for short_url
