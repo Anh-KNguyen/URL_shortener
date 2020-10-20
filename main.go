@@ -3,7 +3,7 @@ package main
 import (
 	"net/http"
 
-	"github.com/Anh-KNguyen/URL_shortener/urlshort"
+	"github.com/Anh-KNguyen/tinylink/urlshort"
 	"github.com/gorilla/mux"
 )
 
