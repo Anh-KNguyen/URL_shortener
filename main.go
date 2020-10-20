@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -22,10 +23,11 @@ type Url struct {
 // define Rest APIs and Handlers
 func defaultMux() *mux.Router {
 	r := mux.NewRouter()
-	r.HandleFunc("/", hello)
 	r.HandleFunc("/links", InputHandler).Methods(http.MethodPost)
 	r.HandleFunc("/links/{id}", OutputHandler).Methods(http.MethodGet)
-	r.HandleFunc("/{id}", PathHandler).Methods(http.MethodGet)
+	r.HandleFunc("/{id}", PathHandler)
+	r.HandleFunc("/", hello)
+
 	return r
 }
 
@@ -67,8 +69,8 @@ func OutputHandler(w http.ResponseWriter, r *http.Request) {
 
 	// store retrieved urls into Url struct
 	u := Url{
-		ShortUrl: shortId, 
-		LongUrl: longId,
+		ShortUrl: shortId,
+		LongUrl:  longId,
 	}
 
 	err := json.NewEncoder(w).Encode(u)
@@ -84,7 +86,15 @@ func PathHandler(w http.ResponseWriter, r *http.Request) {
 	shortId := vars["id"]
 	longId := pathsToURL[shortId]
 
+	if longId == "" {
+		http.Error(w, shortId+" not found", http.StatusNotFound)
+		return
+	}
+
 	// redirect to long_url
+	if !strings.HasPrefix(longId, "http://") {
+		longId = "http://" + longId
+	}
 	http.Redirect(w, r, longId, http.StatusMovedPermanently)
 }
 
@@ -101,5 +111,5 @@ func main() {
 	// start http server
 	mux := defaultMux()
 	_ = http.ListenAndServe(":8080", mux)
-	
+
 }
