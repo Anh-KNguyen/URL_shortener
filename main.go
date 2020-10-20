@@ -26,13 +26,13 @@ func defaultMux() *mux.Router {
 	r.HandleFunc("/links", InputHandler).Methods(http.MethodPost)
 	r.HandleFunc("/links/{id}", OutputHandler).Methods(http.MethodGet)
 	r.HandleFunc("/{id}", PathHandler)
-	r.HandleFunc("/", hello)
+	r.HandleFunc("/", HomeHandler)
 
 	return r
 }
 
-func hello(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Hello world")
+func HomeHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, "Home Page")
 }
 
 func InputHandler(w http.ResponseWriter, r *http.Request) {
