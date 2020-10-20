@@ -63,9 +63,11 @@ func InputHandler(w http.ResponseWriter, r *http.Request) {
 func OutputHandler(w http.ResponseWriter, r *http.Request) {
 	// retrieve route
 	vars := mux.Vars(r)
+	shortId := vars["id"]
+	longId := pathsToURL[shortId]
 	w.WriteHeader(http.StatusOK)
-	
-	u := Url{LongUrl: pathsToURL[ShortUrl], ShortUrl: ""}
+
+	u := Url{LongUrl: vars["id"], ShortUrl: ""}
 	jsonBody, err := json.NewEncoder(w).Encode(u)
 }
 
