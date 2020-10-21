@@ -4,14 +4,14 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <title>TinyUrl</title>
         <style>
-            form.example input[type=text] {
+            .example input[type=text] {
                 padding: 8px;
                 font-size: 17px;
                 border: 1px solid grey;
                 width: 30%;
                 background: #f1f1f1;
             }
-            form.example button {
+            .example button {
                 width: 3%;
                 padding: 8px;
                 background: #2196F3;
@@ -31,15 +31,31 @@
 
     <body>
         <h1>TinyUrl</h1>
-        <div>
-            <form class="example" action="action_page.php">
-                <input type="text" placeholder="Search.." name="search">
-                <button type="submit"><i class="fa fa-search"></i></button>
-            </form>
+        <div class="example">
+            <input id="text" type="text" placeholder="Search.." name="search">
+            <button type="submit" onclick="post(this)"><i class="fa fa-search"></i></button>
         </div>
         <div>
-            <a class="link" href="url">link text</a>
+            <a id="shortUrl" class="link" href="url"></a>
         </div>
+        <script>
+            function post(text) {
+                fetch('http://localhost:8080/links', {
+                    method: 'post',
+                    body: JSON.stringify({
+                        long_url: document.getElementById("text").value
+                    })
+                })
+                .then( (response) => {
+                    return response.json()
+                })
+                .then(text => {
+                    console.log("data: " + text.long_url)
+                    document.getElementById('shortUrl').href=text.short_url
+                    document.getElementById('shortUrl').innerHTML=text.short_url
+                })
+            }
+        </script>
     </body>
 
 </html>
