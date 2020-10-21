@@ -40,7 +40,7 @@
         </div>
         <script>
             function post(text) {
-                fetch('http://localhost:8080/links', {
+                fetch('/links', {
                     method: 'post',
                     body: JSON.stringify({
                         long_url: document.getElementById("text").value
@@ -51,8 +51,8 @@
                 })
                 .then(text => {
                     console.log("data: " + text.long_url)
-                    document.getElementById('shortUrl').innerHTML=text.short_url
-                    document.getElementById('shortUrl').href='http://localhost:8080/' + text.short_url
+                    document.getElementById('shortUrl').innerHTML = window.location.href + text.short_url
+                    document.getElementById('shortUrl').href = window.location.href + text.short_url
                     
                 });
 
