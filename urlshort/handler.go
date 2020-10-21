@@ -2,7 +2,7 @@ package urlshort
 
 import (
 	"encoding/json"
-	"fmt"
+	"io/ioutil"
 	"math/rand"
 	"net/http"
 	"strings"
@@ -21,7 +21,13 @@ type Url struct {
 }
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Home Page")
+	data, err := ioutil.ReadFile("index.html")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Write(data)
+
 }
 
 func InputHandler(w http.ResponseWriter, r *http.Request) {
