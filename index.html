@@ -1,12 +1,45 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Page Title</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <title>TinyUrl</title>
+        <style>
+            form.example input[type=text] {
+                padding: 8px;
+                font-size: 17px;
+                border: 1px solid grey;
+                width: 30%;
+                background: #f1f1f1;
+            }
+            form.example button {
+                width: 3%;
+                padding: 8px;
+                background: #2196F3;
+                color: white;
+                font-size: 17px;
+                border: 1px solid grey;
+                cursor: pointer;
+            }
+            a.link {
+                font-size: 25px;
+                padding-top: 30px;
+                display: inline-block;
+            }
+        </style>
     </head>
 
 
     <body>
-        <h1>Heading</h1>
+        <h1>TinyUrl</h1>
+        <div>
+            <form class="example" action="action_page.php">
+                <input type="text" placeholder="Search.." name="search">
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+        <div>
+            <a class="link" href="url">link text</a>
+        </div>
     </body>
 
 </html>
