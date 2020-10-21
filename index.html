@@ -51,9 +51,11 @@
                 })
                 .then(text => {
                     console.log("data: " + text.long_url)
-                    document.getElementById('shortUrl').href=text.short_url
                     document.getElementById('shortUrl').innerHTML=text.short_url
-                })
+                    document.getElementById('shortUrl').href='http://localhost:8080/' + text.short_url
+                    
+                });
+
             }
         </script>
     </body>
