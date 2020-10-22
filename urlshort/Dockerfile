@@ -1,10 +1,9 @@
-From golang:latest
+FROM golang:latest
 
-RUN mkdir /app
-ADD . /app
+WORKDIR /src/
+COPY . /src/
+RUN CGO_ENABLED=0 go build -o /bin/tinyurl
 
-WORKDIR /app
-
-RUN go build -o main .
-
-CMD ["/app/main"]
+FROM scratch
+COPY --from=build /bin/tinyurl /bin/tinyurl
+ENTRYPOINT ["/bin/tinyurl"]
