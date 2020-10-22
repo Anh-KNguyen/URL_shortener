@@ -1,6 +1,5 @@
 FROM golang:latest
 
-WORKDIR /src/
-COPY . /src/
+COPY . /usr/share/nginx/html
 
 CMD ["go", "run", "src/main.go"]
