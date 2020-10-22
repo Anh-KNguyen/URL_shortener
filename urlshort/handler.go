@@ -43,7 +43,7 @@ func InputHandler(w http.ResponseWriter, r *http.Request) {
 
 	// generate random short_url
 	rand.Seed(time.Now().UnixNano())
-	u.ShortUrl = randSeq(10)
+	u.ShortUrl = randSeq(7)
 
 	// place into map
 	PathsToURL[u.ShortUrl] = u.LongUrl
