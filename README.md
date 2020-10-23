@@ -1,2 +1,2 @@
 # tinylink
-Shortens URL links. Backend written in Go.
+Link shortening web application. Rest-ful APIs written in Golang.
