@@ -86,11 +86,13 @@ func PathHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// redirect to long_url
-	if !strings.HasPrefix(longId, "http://") {
+	// nonexistent prefix
+	if !(strings.HasPrefix(longId, "http://") || strings.HasPrefix(longId, "https://")) {
 		longId = "http://" + longId
 	}
+
 	http.Redirect(w, r, longId, http.StatusMovedPermanently)
+
 }
 
 // generate random string for short_url
