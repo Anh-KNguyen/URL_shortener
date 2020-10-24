@@ -1,0 +1,52 @@
+name: build
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  # this is the "build" job
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build and push Docker images
+      uses: docker/build-push-action@v1.1.0
+      with:
+        # Username used to log in to a Docker registry. If not set then no login will occur
+        username: ${{ secrets.DOCKER_USERNAME }}
+        # Password or personal access token used to log in to a Docker registry. If not set then no login will occur
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        # Docker repository to tag the image with:
+        repository: anhknguyen97/tinylink
+        # Comma-delimited list of tags. These will be added to the registry/repository to form the image's tags
+        tags: latest
+        # Automatically tags the built image with the git reference as per the readme
+        tag_with_ref: true
+        # Automatically tags the built image with the git short SHA as per the readme
+        tag_with_sha: true
+        # push is default to true
+    
+  # this is the "deploy" job
+  deploy:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+    - name: SSH Remote Commands
+      uses: appleboy/ssh-action@v0.1.2
+      with:
+        # ssh host
+        host: tinylink.anhknguyen.dev
+        # ssh port defaults to 22
+        # ssh username
+        username: ${{ secrets.SSH_USERNAME }}
+        # include more ciphers with use_insecure_cipher
+        # content of ssh private key. ex raw content of ~/.ssh/id_rsa
+        key: ${{ secrets.SSH_KEY }}
+        script: docker-compose.yml
+        
