@@ -15,6 +15,9 @@ func defaultMux() *mux.Router {
 	r.HandleFunc("/{id}", urlshort.PathHandler)
 	r.HandleFunc("/", urlshort.HomeHandler)
 
+	fs := http.FileServer(http.Dir("/assets"))
+	r.Handle("/assets", fs)
+
 	return r
 }
 
