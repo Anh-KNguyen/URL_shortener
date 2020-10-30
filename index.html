@@ -6,22 +6,6 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
         <title>Mini Links</title>
         <style>
-            .example input[type=text] {
-                padding: 8px;
-                font-size: 17px;
-                border: 1px solid grey;
-                width: 85%;
-                background: #f1f1f1;
-            }
-            .example button {
-                width: 10%;
-                padding: 8px;
-                background: #2196F3;
-                color: white;
-                font-size: 17px;
-                border: 1px solid grey;
-                cursor: pointer;
-            }
             a.link {
                 font-size: 25px;
                 padding-top: 30px;
@@ -47,7 +31,7 @@
                     <div class="input-group mb-3">
                         <input id="text" type="text" class="form-control" placeholder="Your URL to shorten here..">
                         <div class="input-group-append">
-                          <button class="btn btn-outline-secondary" type="button" onclick="post(this)" id="button-addon2">Button</button>
+                          <button class="btn btn-success" type="button" onclick="post(this)" id="button-addon2">Shorten</button>
                         </div>
                     </div>
                     <a id="shortUrl" class="link" href="url"></a>
