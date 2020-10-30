@@ -13,11 +13,13 @@ func defaultMux() *mux.Router {
 	r.HandleFunc("/links", urlshort.InputHandler).Methods(http.MethodPost)
 	r.HandleFunc("/links/{id}", urlshort.OutputHandler).Methods(http.MethodGet)
 	r.HandleFunc("/{id}", urlshort.PathHandler)
+
+	fs := http.FileServer(http.Dir("assets/"))
+	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", fs))
+
 	r.HandleFunc("/", urlshort.HomeHandler)
 
-	fs := http.FileServer(http.Dir("/assets"))
-	r.Handle("/assets", fs)
-
+	
 	return r
 }
 
