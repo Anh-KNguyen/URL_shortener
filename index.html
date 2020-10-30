@@ -44,16 +44,16 @@
                 </div>
                 <div class="col-6" style="padding-top: 400px">
                     <h1 class="font">mini links</h1>
-                    <div class="example">
-                        <input id="text" type="text" placeholder="Your URL to shorten here.." name="search">
-                        <button type="submit" onclick="post(this)"><i class="fa fa-search"></i></button>
+                    <div class="input-group mb-3">
+                        <input id="text" type="text" class="form-control" placeholder="Your URL to shorten here..">
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-secondary" type="button" onclick="post(this)" id="button-addon2">Button</button>
+                        </div>
                     </div>
                     <a id="shortUrl" class="link" href="url"></a>
                 </div>
             </div>
         </div>
-            
-
         <script>
             function post(text) {
                 fetch('/links', {
