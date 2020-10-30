@@ -9,11 +9,11 @@
                 padding: 8px;
                 font-size: 17px;
                 border: 1px solid grey;
-                width: 30%;
+                width: 85%;
                 background: #f1f1f1;
             }
             .example button {
-                width: 3%;
+                width: 10%;
                 padding: 8px;
                 background: #2196F3;
                 color: white;
@@ -31,18 +31,21 @@
 
 
     <body>
-        <div>
-            <img src="assets/monkey_clipart.png" width="500" height="600">
-        </div>
-        <div>
-            <h1>mini links</h1>
-            <div class="example">
-                <input id="text" type="text" placeholder="Your URL here.." name="search">
-                <button type="submit" onclick="post(this)"><i class="fa fa-search"></i></button>
+        <div class="container">
+            <div class="row">
+                <div class="col-6" style="padding-top: 200px">
+                    <img src="assets/monkey_clipart.png" width="500" height="600">
+                </div>
+                <div class="col-6" style="padding-top: 400px">
+                    <h1>mini links</h1>
+                    <div class="example">
+                        <input id="text" type="text" placeholder="Your URL here.." name="search">
+                        <button type="submit" onclick="post(this)"><i class="fa fa-search"></i></button>
+                    </div>
+                    <a id="shortUrl" class="link" href="url"></a>
+                </div>
             </div>
-            <a id="shortUrl" class="link" href="url"></a>
         </div>
-        
             
 
         <script>
