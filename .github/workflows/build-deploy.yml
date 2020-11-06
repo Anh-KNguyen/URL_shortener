@@ -11,7 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        ref: ${{ github.event.client_payload.sh }}
+        ref: ${{ github.event.client_payload.sha }}
     - name: Build Image and Push to DockerHub
       uses: docker/build-push-action@v1.1.0
       with:
@@ -28,6 +28,9 @@ jobs:
         # Automatically tags the built image with the git short SHA as per the readme
         tag_with_sha: true
         # push is default to true
+
+    - uses: r-lib/actions/setup-r@master
+    - uses: r-lib/actions/setup-pandoc@master
     
   deploy:
     needs: [build]
