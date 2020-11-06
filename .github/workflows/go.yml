@@ -33,6 +33,7 @@ jobs:
 
   dispatch:
     needs: build
+    runs-on: ubuntu-latest
     steps:
       - name: Trigger Next Workflow
         uses: peter-evans/repository-dispatch@v1
