@@ -1,4 +1,4 @@
-name: build
+name: Build and Deploy 
 
 on:
   push:
@@ -8,14 +8,11 @@ on:
 
 jobs:
 
-  # this is the "build" job
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
-    - name: Build and push Docker images
+    - name: Build Image and Push to DockerHub
       uses: docker/build-push-action@v1.1.0
       with:
         # Username used to log in to a Docker registry. If not set then no login will occur
@@ -32,7 +29,6 @@ jobs:
         tag_with_sha: true
         # push is default to true
     
-  # this is the "deploy" job
   deploy:
     needs: [build]
     runs-on: ubuntu-latest
@@ -48,5 +44,9 @@ jobs:
         # include more ciphers with use_insecure_cipher
         # content of ssh private key. ex raw content of ~/.ssh/id_rsa
         key: ${{ secrets.SSH_KEY }}
-        script: docker-compose.yml
+        script: |
+          cd /usr/repos
+          (git clone git@github.com:Anh-KNguyen/tinylink.git) || (cd tinylink; git pull)
+          cd tinylink
+          docker-compose up --build --force-recreate -d
         
