@@ -1,10 +1,8 @@
 name: Build and Deploy 
 
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+  repository-dispatch:
+    types: [trigger-build-and-deploy]
 
 jobs:
 
