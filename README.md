@@ -2,3 +2,5 @@
 A web application that shortens URL links. 🙉 RESTful APIs written in Golang.
 
 Containerized app using Docker and deployed onto the cloud.
+
+![Alt text](assets/tinylink.png?raw=true "Title")
