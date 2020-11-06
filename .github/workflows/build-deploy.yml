@@ -1,7 +1,7 @@
 name: Build and Deploy 
 
 on:
-  repository-dispatch:
+  repository_dispatch:
     types: [trigger-build-and-deploy]
 
 jobs:
